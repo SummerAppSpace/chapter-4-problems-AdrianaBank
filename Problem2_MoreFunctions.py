@@ -37,15 +37,17 @@ i = data['mag_i']
 z = data['redshift']
 
 #------------------------------------------------------------
-# Plot the quasar data
-fig, ax = plt.subplots(figsize=(5, 3.75))
-ax.plot(z, r - i, marker='.', markersize=2, linestyle='none', color='black')
+def Plot_Quasars(m='.', ms=2, l='none', c='black'):
 
-ax.set_xlim(0, 5)
-ax.set_ylim(-0.5, 1.0)
+    fig, ax = plt.subplots(figsize=(5, 3.75))
+    ax.plot(z, r - i, marker=m, markersize=ms, linestyle=l, color=c)
 
-ax.set_xlabel(r'${\rm redshift}$')
-ax.set_ylabel(r'${\rm r-i}$')
-fig.savefig("problem2.png")
+    ax.set_xlim(0, 5)
+    ax.set_ylim(-0.5, 1.0)
 
+    ax.set_xlabel(r'${\rm redshift}$')
+    ax.set_ylabel(r'${\rm r-i}$')
+    fig.savefig("problem2" + str('m') + str('ms') + str('l') + str('c') + ".png")
+
+Plot_Quasars('*', 6, '-.', 'green')
 

@@ -5,10 +5,10 @@
 # You WILL get a crash. We will fix this as an exercise in PART 3.
 
 # PART 2:
-# Wrap the entire code after the imports in a try/except block. 
+# Wrap the entire code after the imports in a try/except block.
 # The exception should print the error and then on a new line "still working on it"
 
-# PART 3: 
+# PART 3:
 # There is something wrong with the astroML package that is causing it to crash! We will fix this error and then try again
 # A) Go to the directory astroML in which the git respository is located for the code. Go to the subdirectory datasets
 # open the file sdss_specgals.py and edit the DATA_URL tuple to be correct
@@ -29,37 +29,58 @@
 # The following code works with the SDSS Survey
 # License: BSD
 #   The figure is an example from astroML: see http://astroML.github.com
-import numpy as np
-from matplotlib import pyplot as plt
+try:
+    import numpy as np
+    from matplotlib import pyplot as plt
 
-from astroML.datasets import fetch_sdss_specgals
-
-data = fetch_sdss_specgals()
-
-#------------------------------------------------------------
-# plot the RA/DEC in an area-preserving projection
-
-RA = data['ra']
-DEC = data['dec']
-
-# convert coordinates to degrees
-RA -= 180
-RA *= np.pi / 180
-DEC *= np.pi / 180
-
-ax = plt.axes(projection='mollweide')
-
-ax = plt.axes()
-ax.grid()
-plt.scatter(RA, DEC, s=1, lw=0, c=data['z'], cmap=plt.cm.copper,
-            vmin=0, vmax=0.4)
-
-plt.title('SDSS DR8 Spectroscopic Galaxies')
-cb = plt.colorbar(cax=plt.axes([0.05, 0.1, 0.9, 0.05]),
-                  orientation='horizontal',
-                  ticks=np.linspace(0, 0.4, 9))
-cb.set_label('redshift')
+    from astroML.datasets import fetch_sdss_specgals
 
 
+    data = fetch_sdss_specgals()
 
-plt.savefig("Problem1_SDSS.png")
+    #------------------------------------------------------------
+    # plot the RA/DEC in an area-preserving projection
+    def Projection_Type(projection):
+        assert projection== 'hammer'
+        assert projection== 'aitoff'
+        assert projection== 'mollweide'
+        assert projection== 'lambert'
+
+        """ values of the projection allowed are:
+        'hammer', 'aitoff', 'mollweide', 'lambert'
+        """
+
+        RA = data['ra']
+        DEC = data['dec']
+
+        # convert coordinates to degrees
+        RA -= 180
+        RA *= np.pi / 180
+        DEC *= np.pi / 180
+
+        ax = plt.axes(projection='mollweide')
+
+        ax = plt.axes()
+        ax.grid()
+        plt.scatter(RA, DEC, s=1, lw=0, c=data['z'], cmap=plt.cm.copper,
+                    vmin=0, vmax=0.4)
+
+        plt.title('SDSS DR8 Spectroscopic Galaxies')
+        cb = plt.colorbar(cax=plt.axes([0.05, 0.1, 0.9, 0.05]),
+                          orientation='horizontal',
+                          ticks=np.linspace(0, 0.4, 9))
+        cb.set_label('redshift')
+
+
+
+        plt.savefig("Problem1_SDSS" + str(projection) + ".png")
+
+    Projection_Type('lambert')
+    Projection_Type('mollweide')
+    Projection_Type('aitoff')
+    Projection_Type('hammer')
+    Projection_Type('sillyprojection')
+
+except ImportError as e:
+    print(e)
+    print("Still working on it")
